@@ -4,21 +4,15 @@ export class Link {
     static links: Link[] = [];
 
     id: number;
-    _longLink: string;
-    _shortLink: string;
+    longLink: string;
 
     constructor({ id, longLink }: { id: number; longLink: string }) {
         this.id = id;
-        this._longLink = longLink;
-        this._shortLink = `${API_URL}/l/${id}`;
+        this.longLink = longLink;
     }
 
     get shortLink() {
-        return this._shortLink;
-    }
-
-    get longLink() {
-        return this._longLink;
+        return `${API_URL}/l/${this.id}`;;
     }
 
     static getOne(linkId: number): Link | undefined {
@@ -51,8 +45,8 @@ export class Link {
     static updateOne(linkId: number, longLink: string): Link | null {
         const link = Link.getOne(linkId);
         if (link) {
-            link._longLink = longLink;
-            link._shortLink = `${API_URL}/l/${link.id}`;
+            link.longLink = longLink;
+            // link.shortLink = `${API_URL}/l/${link.id}`;
             return link;
         }
         return null;

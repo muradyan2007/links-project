@@ -1,22 +1,17 @@
 import http from 'http';
-import { routes } from './routes/linksRoutes';
-import { redirectRoutes } from './routes/redirectRoutes';
-import { setFunctions } from './functions/setFunction';
+import { ServerRequest, ServerResponse } from './type/type';
+import { getBody, setFunctions } from './functions/setFunction'; 
+import { setRoutes } from './routes/setRoutes';
 
-const port = process.env.API_URL;
-
-
-const server = http.createServer((req, res) => {
+const port = 3000;
+const server = http.createServer<typeof ServerRequest, typeof ServerResponse>(async (req, res) => {
     setFunctions(req, res);
 
-    routes(req, res);
+    req.body = await getBody(req);
 
-
-    redirectRoutes(req, res);
+    setRoutes(req,res);
 });
 
 server.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/`);
-    
+    console.log(`Server running at http://localhost:${port}`);
 });
-

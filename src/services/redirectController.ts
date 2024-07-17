@@ -1,10 +1,12 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage} from 'http';
+import { ServerResponse } from '../type/type';
 import { Link } from '../models/linksModel';
 import { parse } from 'url';
+import { setParams } from '../functions/setFunction';
 
 export const redirect = (req: IncomingMessage, res: ServerResponse): void => {
-    const parsedUrl = parse(req.url || '', true);
-    const id = parsedUrl.pathname?.split('/')[2];
+
+    const {name, id} = setParams(req.url);
 
     if (!id) {
         res.statusCode = 402;
